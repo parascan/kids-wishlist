@@ -28,12 +28,13 @@ jobs:
           node-version: 20
 
       - name: Build
+        working-directory: wishlist-app
         run: npm ci && npm run build
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: wishlist-app/dist
 
   deploy:
     needs: build
