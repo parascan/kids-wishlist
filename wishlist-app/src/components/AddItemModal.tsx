@@ -21,6 +21,8 @@ export default function AddItemModal({ kidColor, initialValues, onSave, onClose 
   const [notes, setNotes] = useState(initialValues?.notes ?? '');
   const [compressing, setCompressing] = useState(false);
   const nameRef = useRef<HTMLInputElement>(null);
+  const cameraRef = useRef<HTMLInputElement>(null);
+  const uploadRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     nameRef.current?.focus();
@@ -90,19 +92,37 @@ export default function AddItemModal({ kidColor, initialValues, onSave, onClose 
                   ✕
                 </button>
               </>
-            ) : (
+            ) : compressing ? (
               <div className="photo-upload__hint">
-                <span className="upload-icon">{compressing ? '⏳' : '📷'}</span>
-                <span>{compressing ? 'Processing…' : 'Tap to add a photo'}</span>
-                <small>Photo of the toy, screenshot, catalog page, etc.</small>
+                <span className="upload-icon">⏳</span>
+                <span>Processing…</span>
+              </div>
+            ) : (
+              <div className="photo-upload__actions">
+                <button type="button" className="photo-btn" onClick={() => cameraRef.current?.click()}>
+                  📷 Take Photo
+                </button>
+                <button type="button" className="photo-btn" onClick={() => uploadRef.current?.click()}>
+                  🖼 Upload Image
+                </button>
               </div>
             )}
             <input
+              ref={cameraRef}
               type="file"
               accept="image/*"
               capture="environment"
               onChange={handlePhotoChange}
               disabled={compressing}
+              style={{ display: 'none' }}
+            />
+            <input
+              ref={uploadRef}
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoChange}
+              disabled={compressing}
+              style={{ display: 'none' }}
             />
           </div>
 
