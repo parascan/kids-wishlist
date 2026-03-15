@@ -31,21 +31,10 @@ jobs:
         working-directory: wishlist-app
         run: npm ci && npm run build
 
-      - name: Build chore app
-        working-directory: chore-app
-        run: npm ci && npm run build
-
-      - name: Merge builds
-        run: |
-          mkdir -p _site
-          cp -r wishlist-app/dist/. _site/
-          mkdir -p _site/chores
-          cp -r chore-app/dist/. _site/chores/
-
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: wishlist-app/dist
 
   deploy:
     needs: build
