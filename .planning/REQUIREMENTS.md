@@ -15,10 +15,10 @@
 
 ### Normalization
 
-- [ ] **NORM-01**: App converts all American odds to implied probability using standard formula
-- [ ] **NORM-02**: App removes vig from sportsbook-style implied probabilities before computing consensus (Kalshi/Polymarket prices used directly — already vig-free)
-- [ ] **NORM-03**: App computes consensus implied probability as simple average of available reference sources per market
-- [ ] **NORM-04**: App maintains a team name dictionary to match the same team across Kalshi, Polymarket, and ESPN naming conventions
+- [x] **NORM-01**: App converts all American odds to implied probability using standard formula
+- [x] **NORM-02**: App removes vig from sportsbook-style implied probabilities before computing consensus (Kalshi/Polymarket prices used directly — already vig-free)
+- [x] **NORM-03**: App computes consensus implied probability as simple average of available reference sources per market
+- [x] **NORM-04**: App maintains a team name dictionary to match the same team across Kalshi, Polymarket, and ESPN naming conventions
 
 ### Discrepancy & EV
 
@@ -71,10 +71,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| NORM-01 | Phase 1 | Pending |
-| NORM-02 | Phase 1 | Pending |
-| NORM-03 | Phase 1 | Pending |
-| NORM-04 | Phase 1 | Pending |
+| NORM-01 | Phase 1 | Complete |
+| NORM-02 | Phase 1 | Complete |
+| NORM-03 | Phase 1 | Complete |
+| NORM-04 | Phase 1 | Complete |
 | DATA-01 | Phase 2 | Pending |
 | DATA-02 | Phase 2 | Pending |
 | DATA-03 | Phase 2 | Pending |
