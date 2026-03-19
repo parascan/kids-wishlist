@@ -12,7 +12,7 @@ Three phases that build the tool from the inside out: first the odds math engine
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Odds Math Engine** - Pure normalization functions: American odds to implied probability, vig removal, consensus computation, team name dictionary
+- [x] **Phase 1: Odds Math Engine** - Pure normalization functions: American odds to implied probability, vig removal, consensus computation, team name dictionary (completed 2026-03-19)
 - [ ] **Phase 2: Data Pipeline** - Backend fetchers (Kalshi, Polymarket, ESPN), SQLite persistence, discrepancy and EV computation, Express API server
 - [ ] **Phase 3: Dashboard** - React frontend with Underdog manual entry, game list sorted by discrepancy, color coding, filters, refresh, threshold settings, stale-data flagging
 
@@ -27,7 +27,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Given a two-sided sportsbook market, vig is stripped so both sides sum to exactly 1.0 before consensus math
   3. Given implied probabilities from multiple reference sources, the app returns their simple average as the consensus
   4. Given any team name variant from Kalshi, Polymarket, or ESPN, the app resolves it to the same canonical team ID
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 Plans:
 - [ ] 01-01-PLAN.md — Scaffold backend project, write failing tests for all 4 NORM requirements, seed team-map.json
 - [ ] 01-02-PLAN.md — Implement odds, vig, consensus, and teams modules to make all tests pass
@@ -63,6 +63,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Odds Math Engine | 1/2 | In Progress|  |
+| 1. Odds Math Engine | 2/2 | Complete   | 2026-03-19 |
 | 2. Data Pipeline | 0/TBD | Not started | - |
 | 3. Dashboard | 0/TBD | Not started | - |

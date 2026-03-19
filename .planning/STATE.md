@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed 01-01-PLAN.md
-last_updated: "2026-03-19T23:46:06Z"
+status: unknown
+stopped_at: Completed 01-02-PLAN.md
+last_updated: "2026-03-19T23:51:35.260Z"
 progress:
   total_phases: 3
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 2
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -46,6 +46,7 @@ Plan: 2 of 2
 - Trend: baseline
 
 *Updated after each plan completion*
+| Phase 01-odds-math-engine P02 | 2min | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -60,6 +61,8 @@ Recent decisions affecting current work:
 - [01-01]: Vitest over Jest — native TypeScript execution, zero transform config overhead
 - [01-01]: Static JSON team map over fuzzy matching — 68-team bounded set, explicit mapping is debuggable
 - [01-01]: moduleResolution: bundler in tsconfig for clean ESM/CJS interop with Vitest
+- [Phase 01-02]: Plain JSON import (no import assertion) for team-map.json — resolveJsonModule:true handles it
+- [Phase 01-02]: resolveTeam returns null (not throw) for unknown team names — Phase 2 callers handle gaps gracefully
 
 ### Pending Todos
 
@@ -72,6 +75,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-19
-Stopped at: Completed 01-01-PLAN.md
+Last session: 2026-03-19T23:51:35.255Z
+Stopped at: Completed 01-02-PLAN.md
 Resume file: None
