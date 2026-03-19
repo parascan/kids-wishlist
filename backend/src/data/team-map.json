@@ -1,0 +1,324 @@
+{
+  "Duke": "duke-blue-devils",
+  "Duke Blue Devils": "duke-blue-devils",
+  "DUKE": "duke-blue-devils",
+  "Duke (NCAA)": "duke-blue-devils",
+
+  "Kansas": "kansas-jayhawks",
+  "Kansas Jayhawks": "kansas-jayhawks",
+  "KANSAS": "kansas-jayhawks",
+  "KU": "kansas-jayhawks",
+
+  "UConn": "connecticut-huskies",
+  "Connecticut": "connecticut-huskies",
+  "Connecticut Huskies": "connecticut-huskies",
+  "UCONN": "connecticut-huskies",
+
+  "Houston": "houston-cougars",
+  "Houston Cougars": "houston-cougars",
+  "HOUSTON": "houston-cougars",
+  "UH": "houston-cougars",
+
+  "Purdue": "purdue-boilermakers",
+  "Purdue Boilermakers": "purdue-boilermakers",
+  "PURDUE": "purdue-boilermakers",
+
+  "North Carolina": "north-carolina-tar-heels",
+  "North Carolina Tar Heels": "north-carolina-tar-heels",
+  "UNC": "north-carolina-tar-heels",
+  "NORTH CAROLINA": "north-carolina-tar-heels",
+  "Tar Heels": "north-carolina-tar-heels",
+
+  "Tennessee": "tennessee-volunteers",
+  "Tennessee Volunteers": "tennessee-volunteers",
+  "TENNESSEE": "tennessee-volunteers",
+  "Vols": "tennessee-volunteers",
+
+  "Auburn": "auburn-tigers",
+  "Auburn Tigers": "auburn-tigers",
+  "AUBURN": "auburn-tigers",
+
+  "Iowa State": "iowa-state-cyclones",
+  "Iowa State Cyclones": "iowa-state-cyclones",
+  "IOWA STATE": "iowa-state-cyclones",
+  "ISU": "iowa-state-cyclones",
+
+  "Marquette": "marquette-golden-eagles",
+  "Marquette Golden Eagles": "marquette-golden-eagles",
+  "MARQUETTE": "marquette-golden-eagles",
+  "MU": "marquette-golden-eagles",
+
+  "Creighton": "creighton-bluejays",
+  "Creighton Bluejays": "creighton-bluejays",
+  "CREIGHTON": "creighton-bluejays",
+
+  "Baylor": "baylor-bears",
+  "Baylor Bears": "baylor-bears",
+  "BAYLOR": "baylor-bears",
+
+  "Arizona": "arizona-wildcats",
+  "Arizona Wildcats": "arizona-wildcats",
+  "ARIZONA": "arizona-wildcats",
+  "UA": "arizona-wildcats",
+
+  "Kentucky": "kentucky-wildcats",
+  "Kentucky Wildcats": "kentucky-wildcats",
+  "KENTUCKY": "kentucky-wildcats",
+  "UK": "kentucky-wildcats",
+
+  "Gonzaga": "gonzaga-bulldogs",
+  "Gonzaga Bulldogs": "gonzaga-bulldogs",
+  "GONZAGA": "gonzaga-bulldogs",
+  "Zags": "gonzaga-bulldogs",
+
+  "Alabama": "alabama-crimson-tide",
+  "Alabama Crimson Tide": "alabama-crimson-tide",
+  "ALABAMA": "alabama-crimson-tide",
+  "Bama": "alabama-crimson-tide",
+
+  "Texas": "texas-longhorns",
+  "Texas Longhorns": "texas-longhorns",
+  "TEXAS": "texas-longhorns",
+  "UT": "texas-longhorns",
+
+  "UCLA": "ucla-bruins",
+  "UCLA Bruins": "ucla-bruins",
+  "Bruins": "ucla-bruins",
+
+  "Michigan State": "michigan-state-spartans",
+  "Michigan State Spartans": "michigan-state-spartans",
+  "MICHIGAN STATE": "michigan-state-spartans",
+  "MSU": "michigan-state-spartans",
+  "Spartans": "michigan-state-spartans",
+
+  "Illinois": "illinois-fighting-illini",
+  "Illinois Fighting Illini": "illinois-fighting-illini",
+  "ILLINOIS": "illinois-fighting-illini",
+  "Fighting Illini": "illinois-fighting-illini",
+  "U of I": "illinois-fighting-illini",
+
+  "Clemson": "clemson-tigers",
+  "Clemson Tigers": "clemson-tigers",
+  "CLEMSON": "clemson-tigers",
+
+  "San Diego State": "san-diego-state-aztecs",
+  "San Diego State Aztecs": "san-diego-state-aztecs",
+  "SDSU": "san-diego-state-aztecs",
+  "SAN DIEGO STATE": "san-diego-state-aztecs",
+
+  "BYU": "byu-cougars",
+  "BYU Cougars": "byu-cougars",
+  "Brigham Young": "byu-cougars",
+  "Brigham Young Cougars": "byu-cougars",
+
+  "Wisconsin": "wisconsin-badgers",
+  "Wisconsin Badgers": "wisconsin-badgers",
+  "WISCONSIN": "wisconsin-badgers",
+  "Badgers": "wisconsin-badgers",
+
+  "Florida": "florida-gators",
+  "Florida Gators": "florida-gators",
+  "FLORIDA": "florida-gators",
+  "UF": "florida-gators",
+  "Gators": "florida-gators",
+
+  "St. Mary's": "st-marys-gaels",
+  "St. Mary's Gaels": "st-marys-gaels",
+  "Saint Mary's": "st-marys-gaels",
+  "Saint Mary's Gaels": "st-marys-gaels",
+  "SMC": "st-marys-gaels",
+
+  "Oregon": "oregon-ducks",
+  "Oregon Ducks": "oregon-ducks",
+  "OREGON": "oregon-ducks",
+  "UO": "oregon-ducks",
+
+  "Colorado State": "colorado-state-rams",
+  "Colorado State Rams": "colorado-state-rams",
+  "COLORADO STATE": "colorado-state-rams",
+  "CSU": "colorado-state-rams",
+
+  "Northwestern": "northwestern-wildcats",
+  "Northwestern Wildcats": "northwestern-wildcats",
+  "NORTHWESTERN": "northwestern-wildcats",
+  "NU": "northwestern-wildcats",
+
+  "Dayton": "dayton-flyers",
+  "Dayton Flyers": "dayton-flyers",
+  "DAYTON": "dayton-flyers",
+  "UD": "dayton-flyers",
+
+  "Nevada": "nevada-wolf-pack",
+  "Nevada Wolf Pack": "nevada-wolf-pack",
+  "NEVADA": "nevada-wolf-pack",
+  "Wolf Pack": "nevada-wolf-pack",
+  "UNR": "nevada-wolf-pack",
+
+  "New Mexico": "new-mexico-lobos",
+  "New Mexico Lobos": "new-mexico-lobos",
+  "NEW MEXICO": "new-mexico-lobos",
+  "UNM": "new-mexico-lobos",
+  "Lobos": "new-mexico-lobos",
+
+  "James Madison": "james-madison-dukes",
+  "James Madison Dukes": "james-madison-dukes",
+  "JAMES MADISON": "james-madison-dukes",
+  "JMU": "james-madison-dukes",
+
+  "Oakland": "oakland-golden-grizzlies",
+  "Oakland Golden Grizzlies": "oakland-golden-grizzlies",
+  "OAKLAND": "oakland-golden-grizzlies",
+  "Golden Grizzlies": "oakland-golden-grizzlies",
+
+  "Yale": "yale-bulldogs",
+  "Yale Bulldogs": "yale-bulldogs",
+  "YALE": "yale-bulldogs",
+
+  "Morehead State": "morehead-state-eagles",
+  "Morehead State Eagles": "morehead-state-eagles",
+  "MOREHEAD STATE": "morehead-state-eagles",
+  "MSU Eagles": "morehead-state-eagles",
+
+  "Villanova": "villanova-wildcats",
+  "Villanova Wildcats": "villanova-wildcats",
+  "VILLANOVA": "villanova-wildcats",
+  "Nova": "villanova-wildcats",
+
+  "Xavier": "xavier-musketeers",
+  "Xavier Musketeers": "xavier-musketeers",
+  "XAVIER": "xavier-musketeers",
+
+  "Memphis": "memphis-tigers",
+  "Memphis Tigers": "memphis-tigers",
+  "MEMPHIS": "memphis-tigers",
+
+  "Florida Atlantic": "florida-atlantic-owls",
+  "Florida Atlantic Owls": "florida-atlantic-owls",
+  "FAU": "florida-atlantic-owls",
+  "FLORIDA ATLANTIC": "florida-atlantic-owls",
+
+  "VCU": "vcu-rams",
+  "VCU Rams": "vcu-rams",
+  "Virginia Commonwealth": "vcu-rams",
+  "Virginia Commonwealth Rams": "vcu-rams",
+
+  "Drake": "drake-bulldogs",
+  "Drake Bulldogs": "drake-bulldogs",
+  "DRAKE": "drake-bulldogs",
+
+  "Grand Canyon": "grand-canyon-antelopes",
+  "Grand Canyon Antelopes": "grand-canyon-antelopes",
+  "GCU": "grand-canyon-antelopes",
+  "GRAND CANYON": "grand-canyon-antelopes",
+
+  "Furman": "furman-paladins",
+  "Furman Paladins": "furman-paladins",
+  "FURMAN": "furman-paladins",
+
+  "Colgate": "colgate-raiders",
+  "Colgate Raiders": "colgate-raiders",
+  "COLGATE": "colgate-raiders",
+
+  "Montana State": "montana-state-bobcats",
+  "Montana State Bobcats": "montana-state-bobcats",
+  "MONTANA STATE": "montana-state-bobcats",
+  "MSU Bobcats": "montana-state-bobcats",
+
+  "UC Santa Barbara": "uc-santa-barbara-gauchos",
+  "UC Santa Barbara Gauchos": "uc-santa-barbara-gauchos",
+  "UCSB": "uc-santa-barbara-gauchos",
+
+  "Princeton": "princeton-tigers",
+  "Princeton Tigers": "princeton-tigers",
+  "PRINCETON": "princeton-tigers",
+
+  "Kennesaw State": "kennesaw-state-owls",
+  "Kennesaw State Owls": "kennesaw-state-owls",
+  "KENNESAW STATE": "kennesaw-state-owls",
+  "KSU Owls": "kennesaw-state-owls",
+
+  "Howard": "howard-bison",
+  "Howard Bison": "howard-bison",
+  "HOWARD": "howard-bison",
+
+  "Texas Southern": "texas-southern-tigers",
+  "Texas Southern Tigers": "texas-southern-tigers",
+  "TEXAS SOUTHERN": "texas-southern-tigers",
+  "TSU": "texas-southern-tigers",
+
+  "Southeast Missouri State": "se-missouri-state-redhawks",
+  "SE Missouri State Redhawks": "se-missouri-state-redhawks",
+  "SEMO": "se-missouri-state-redhawks",
+  "Southeast Missouri": "se-missouri-state-redhawks",
+
+  "Northern Kentucky": "northern-kentucky-norse",
+  "Northern Kentucky Norse": "northern-kentucky-norse",
+  "NKU": "northern-kentucky-norse",
+  "NORTHERN KENTUCKY": "northern-kentucky-norse",
+
+  "Indiana": "indiana-hoosiers",
+  "Indiana Hoosiers": "indiana-hoosiers",
+  "INDIANA": "indiana-hoosiers",
+  "IU": "indiana-hoosiers",
+
+  "Virginia": "virginia-cavaliers",
+  "Virginia Cavaliers": "virginia-cavaliers",
+  "VIRGINIA": "virginia-cavaliers",
+  "UVA": "virginia-cavaliers",
+  "Cavaliers": "virginia-cavaliers",
+
+  "Arkansas": "arkansas-razorbacks",
+  "Arkansas Razorbacks": "arkansas-razorbacks",
+  "ARKANSAS": "arkansas-razorbacks",
+  "Razorbacks": "arkansas-razorbacks",
+
+  "Missouri": "missouri-tigers",
+  "Missouri Tigers": "missouri-tigers",
+  "MISSOURI": "missouri-tigers",
+  "Mizzou": "missouri-tigers",
+
+  "Texas A&M": "texas-am-aggies",
+  "Texas A&M Aggies": "texas-am-aggies",
+  "TEXAS A&M": "texas-am-aggies",
+  "TAMU": "texas-am-aggies",
+  "Aggies": "texas-am-aggies",
+
+  "Cincinnati": "cincinnati-bearcats",
+  "Cincinnati Bearcats": "cincinnati-bearcats",
+  "CINCINNATI": "cincinnati-bearcats",
+  "UC Bearcats": "cincinnati-bearcats",
+
+  "Wake Forest": "wake-forest-demon-deacons",
+  "Wake Forest Demon Deacons": "wake-forest-demon-deacons",
+  "WAKE FOREST": "wake-forest-demon-deacons",
+  "Demon Deacons": "wake-forest-demon-deacons",
+
+  "Utah State": "utah-state-aggies",
+  "Utah State Aggies": "utah-state-aggies",
+  "UTAH STATE": "utah-state-aggies",
+  "USU": "utah-state-aggies",
+
+  "College of Charleston": "college-of-charleston-cougars",
+  "Charleston": "college-of-charleston-cougars",
+  "Charleston Cougars": "college-of-charleston-cougars",
+  "CHARLESTON": "college-of-charleston-cougars",
+
+  "Oral Roberts": "oral-roberts-golden-eagles",
+  "Oral Roberts Golden Eagles": "oral-roberts-golden-eagles",
+  "ORU": "oral-roberts-golden-eagles",
+  "ORAL ROBERTS": "oral-roberts-golden-eagles",
+
+  "Longwood": "longwood-lancers",
+  "Longwood Lancers": "longwood-lancers",
+  "LONGWOOD": "longwood-lancers",
+
+  "Grambling": "grambling-state-tigers",
+  "Grambling State": "grambling-state-tigers",
+  "Grambling State Tigers": "grambling-state-tigers",
+  "GRAMBLING": "grambling-state-tigers",
+
+  "Fair Dickinson": "fairleigh-dickinson-knights",
+  "Fairleigh Dickinson": "fairleigh-dickinson-knights",
+  "Fairleigh Dickinson Knights": "fairleigh-dickinson-knights",
+  "FDU": "fairleigh-dickinson-knights"
+}
