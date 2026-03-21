@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>March Madness Odds</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f1117; color: #e2e8f0; min-height: 100vh; }
+
+  header { background: #1a1d2e; border-bottom: 1px solid #2d3748; padding: 14px 24px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  header h1 { font-size: 1.2rem; font-weight: 700; color: #f7941d; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #48bb78; display: inline-block; }
+  #status-text { font-size: 0.8rem; color: #718096; }
+  .btn { background: #2b6cb0; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; font-weight: 600; }
+  .btn:hover { background: #2c5282; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .filter-row { margin-left: auto; display: flex; gap: 6px; }
+  .filter-btn { background: #2d3748; border: 1px solid #4a5568; color: #a0aec0; padding: 4px 12px; border-radius: 20px; cursor: pointer; font-size: 0.78rem; }
+  .filter-btn.active { background: #2b6cb0; border-color: #4299e1; color: white; }
+
+  main { max-width: 1200px; margin: 0 auto; padding: 20px 16px; }
+
+  .game-card { background: #1a1d2e; border: 1px solid #2d3748; border-radius: 10px; margin-bottom: 14px; overflow: hidden; }
+  .game-header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid #2d3748; }
+  .game-title { font-size: 1rem; font-weight: 700; flex: 1; }
+  .game-time { font-size: 0.75rem; color: #718096; }
+  .status-badge { font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; }
+  .status-live { background: #c53030; color: white; }
+  .status-sched { background: #2d3748; color: #a0aec0; }
+
+  /* Odds table */
+  .odds-section { padding: 10px 16px 14px; }
+  .bet-type-label { font-size: 0.7rem; color: #718096; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; margin-top: 10px; }
+  .bet-type-label:first-child { margin-top: 0; }
+
+  .odds-table { width: 100%; border-collapse: collapse; }
+  .odds-table th { font-size: 0.68rem; color: #718096; text-transform: uppercase; letter-spacing: 0.05em; padding: 4px 8px; text-align: center; font-weight: 600; }
+  .odds-table th.team-col { text-align: left; }
+  .odds-table td { padding: 5px 8px; font-size: 0.85rem; text-align: center; }
+  .odds-table td.team-name { text-align: left; color: #cbd5e0; font-weight: 500; }
+  .odds-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* Color coding — highlight best and worst odds for a side */
+  .best { color: #68d391; font-weight: 700; }
+  .worst { color: #fc8181; }
+  .mid { color: #e2e8f0; }
+  .no-odds { color: #4a5568; }
+
+  .consensus-col { color: #90cdf4; font-weight: 700; }
+  .spread-line { color: #718096; font-size: 0.75rem; }
+
+  .spinner { display: inline-block; width: 13px; height: 13px; border: 2px solid transparent; border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 5px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: #4a5568; }
+  .empty-state h3 { font-size: 1rem; color: #718096; }
+
+  .book-badge { display: inline-block; font-size: 0.65rem; padding: 1px 5px; border-radius: 4px; background: #2d3748; color: #a0aec0; vertical-align: middle; }
+</style>
+</head>
+<body>
+<header>
+  <h1>🏀 March Madness Odds</h1>
+  <span><span class="status-dot" id="status-dot"></span> <span id="status-text">Loading...</span></span>
+  <button class="btn" id="refresh-btn" onclick="refresh()">Refresh</button>
+  <div class="filter-row">
+    <button class="filter-btn active" onclick="setFilter('moneyline',this)">Moneyline</button>
+    <button class="filter-btn" onclick="setFilter('spread',this)">Spread</button>
+    <button class="filter-btn" onclick="setFilter('totals',this)">O/U</button>
+  </div>
+</header>
+
+<main>
+  <div id="games"></div>
+</main>
+
+<script>
+let games = [];
+let refOdds = [];
+let currentFilter = 'moneyline';
+
+const BOOK_LABELS = {
+  draftkings: 'DK',
+  fanduel: 'FD',
+  betmgm: 'MGM',
+  bovada: 'BOV',
+  caesars: 'CZR',
+  pointsbet: 'PB',
+  williamhill_us: 'WH',
+  espn: 'ESPN',
+};
+const BOOKS = ['draftkings','fanduel','betmgm','bovada','caesars','williamhill_us'];
+
+function bookLabel(key) { return BOOK_LABELS[key] ?? key; }
+
+function fmtOdds(american) {
+  if (american == null) return '<span class="no-odds">—</span>';
+  return american > 0 ? `+${american}` : `${american}`;
+}
+
+function oddsFromProb(p) {
+  if (p == null) return null;
+  if (p >= 0.5) return Math.round(-p / (1 - p) * 100);
+  return Math.round((1 - p) / p * 100);
+}
+
+function formatTime(iso) {
+  if (!iso) return '';
+  return new Date(iso).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+}
+
+// Build lookup: gameId -> betType -> outcome -> { source -> prob }
+function buildOddsLookup(odds) {
+  const map = {};
+  for (const o of odds) {
+    if (!map[o.game_id]) map[o.game_id] = {};
+    if (!map[o.game_id][o.bet_type]) map[o.game_id][o.bet_type] = {};
+    if (!map[o.game_id][o.bet_type][o.outcome]) map[o.game_id][o.bet_type][o.outcome] = {};
+    map[o.game_id][o.bet_type][o.outcome][o.source] = { prob: o.implied_prob, line_value: o.line_value };
+  }
+  return map;
+}
+
+// Find the TheOddsAPI game that corresponds to an ESPN game by team name fuzzy match
+function matchGame(espnGame, oddsLookup) {
+  // Try to find oddsapi- game that matches team names
+  for (const gid of Object.keys(oddsLookup)) {
+    if (!gid.startsWith('oddsapi-')) continue;
+    // Get teams from any odds entry
+    const betTypes = oddsLookup[gid];
+    const anyBt = Object.values(betTypes)[0];
+    if (!anyBt) continue;
+    const homeEntry = anyBt['home'] ?? anyBt['over'];
+    if (!homeEntry) continue;
+    // Get source odds to find team names
+    const sources = Object.keys(homeEntry);
+    // We need home/away team names — they're in refOdds
+    const sample = refOdds.find(o => o.game_id === gid);
+    if (!sample) continue;
+    const h = sample.home_team.toLowerCase();
+    const a = sample.away_team.toLowerCase();
+    const eh = espnGame.home_team.toLowerCase();
+    const ea = espnGame.away_team.toLowerCase();
+    // Check if last word matches (e.g. "Wolverines" == "Wolverines")
+    const lastWord = s => s.split(' ').pop();
+    if (lastWord(h) === lastWord(eh) && lastWord(a) === lastWord(ea)) return gid;
+  }
+  return null;
+}
+
+function colorCode(probs, outcome) {
+  // probs is array of numbers; return class for each
+  const valid = probs.filter(p => p != null);
+  if (valid.length < 2) return probs.map(() => 'mid');
+  const best = Math.max(...valid); // highest prob = most favorable for bettor
+  const worst = Math.min(...valid);
+  return probs.map(p => {
+    if (p == null) return 'no-odds';
+    if (Math.abs(p - best) < 0.001) return 'best';
+    if (Math.abs(p - worst) < 0.001) return 'worst';
+    return 'mid';
+  });
+}
+
+function renderOddsTable(espnGame, oddsLookup, betType) {
+  const espnGid = espnGame.game_id; // espn-{id}
+  const apiGid = matchGame(espnGame, oddsLookup);
+
+  const getProb = (outcome, source) => {
+    // Try TheOddsAPI match first
+    if (apiGid && oddsLookup[apiGid]?.[betType]?.[outcome]?.[source]) {
+      return oddsLookup[apiGid][betType][outcome][source].prob;
+    }
+    // Fallback to ESPN
+    if (oddsLookup[espnGid]?.[betType]?.[outcome]?.['espn']) {
+      return oddsLookup[espnGid][betType][outcome]['espn'].prob;
+    }
+    return null;
+  };
+
+  const getLineValue = (outcome, source) => {
+    if (apiGid && oddsLookup[apiGid]?.[betType]?.[outcome]?.[source]) {
+      return oddsLookup[apiGid][betType][outcome][source].line_value;
+    }
+    return null;
+  };
+
+  const books = BOOKS.filter(b =>
+    apiGid && (oddsLookup[apiGid]?.[betType]?.['away']?.[b] || oddsLookup[apiGid]?.[betType]?.['home']?.[b] ||
+               oddsLookup[apiGid]?.[betType]?.['over']?.[b])
+  );
+
+  if (books.length === 0 && !oddsLookup[espnGid]?.[betType]) return '<p style="color:#4a5568;font-size:0.8rem;padding:4px 0">No odds available</p>';
+
+  const sides = betType === 'totals' ? ['over','under'] : ['away','home'];
+  const sideNames = betType === 'totals'
+    ? ['Over', 'Under']
+    : [espnGame.away_team, espnGame.home_team];
+
+  const allBooks = [...new Set([...books, ...(oddsLookup[espnGid]?.[betType] ? ['espn'] : [])])];
+
+  // Compute consensus prob per side
+  const consensusProb = (outcome) => {
+    const probs = allBooks.map(b => getProb(outcome, b)).filter(p => p != null);
+    return probs.length ? probs.reduce((a,b) => a+b, 0) / probs.length : null;
+  };
+
+  const rows = sides.map((side, si) => {
+    const probs = allBooks.map(b => getProb(side, b));
+    const colors = colorCode(probs, side);
+    const lineVal = betType !== 'moneyline' ? getLineValue(side, allBooks[0]) : null;
+    const lineSuffix = lineVal != null ? ` <span class="spread-line">${lineVal > 0 ? '+' : ''}${lineVal}</span>` : '';
+    const cons = consensusProb(side);
+    const consOdds = cons != null ? oddsFromProb(cons) : null;
+
+    const cells = allBooks.map((b, bi) => {
+      const p = probs[bi];
+      const american = p != null ? oddsFromProb(p) : null;
+      const cls = colors[bi];
+      return `<td class="${cls}">${american != null ? (american > 0 ? '+'+american : american) : '<span class="no-odds">—</span>'}</td>`;
+    }).join('');
+
+    const consCell = consOdds != null
+      ? `<td class="consensus-col">${consOdds > 0 ? '+'+consOdds : consOdds}</td>`
+      : `<td class="no-odds">—</td>`;
+
+    return `<tr>
+      <td class="team-name">${sideNames[si]}${lineSuffix}</td>
+      ${cells}
+      ${consCell}
+    </tr>`;
+  }).join('');
+
+  const headers = allBooks.map(b => `<th>${bookLabel(b)}</th>`).join('');
+
+  return `<table class="odds-table">
+    <thead><tr>
+      <th class="team-col"></th>
+      ${headers}
+      <th class="consensus-col">Consensus</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function render() {
+  const container = document.getElementById('games');
+  if (!games.length) {
+    container.innerHTML = '<div class="empty-state"><h3>No games today</h3></div>';
+    return;
+  }
+
+  const oddsLookup = buildOddsLookup(refOdds);
+
+  container.innerHTML = games.map(game => {
+    const isLive = game.status === 'STATUS_IN_PROGRESS';
+    const statusHtml = isLive
+      ? '<span class="status-badge status-live">● LIVE</span>'
+      : `<span class="status-badge status-sched">${formatTime(game.game_time)}</span>`;
+
+    const oddsHtml = renderOddsTable(game, oddsLookup, currentFilter);
+
+    return `<div class="game-card">
+      <div class="game-header">
+        <div class="game-title">${game.away_team} <span style="color:#4a5568">@</span> ${game.home_team}</div>
+        ${statusHtml}
+      </div>
+      <div class="odds-section">
+        ${oddsHtml}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+}
+
+async function loadData() {
+  const [g, o] = await Promise.all([
+    fetch('/api/games/espn').then(r => r.json()),
+    fetch('/api/reference-odds').then(r => r.json()),
+  ]);
+  games = g;
+  refOdds = o;
+  render();
+}
+
+async function loadStatus() {
+  const data = await fetch('/api/status').then(r => r.json());
+  const dot = document.getElementById('status-dot');
+  const txt = document.getElementById('status-text');
+  if (data.lastFetchedAt) {
+    const ago = Math.round((Date.now() - new Date(data.lastFetchedAt).getTime()) / 60000);
+    txt.textContent = `${data.referenceOddsCount} odds · Updated ${ago}m ago`;
+    dot.className = 'status-dot';
+  }
+}
+
+async function refresh() {
+  const btn = document.getElementById('refresh-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Fetching...';
+  await fetch('/api/refresh', { method: 'POST' });
+  await Promise.all([loadStatus(), loadData()]);
+  btn.disabled = false;
+  btn.textContent = 'Refresh';
+}
+
+loadStatus();
+loadData();
+</script>
+</body>
+</html>

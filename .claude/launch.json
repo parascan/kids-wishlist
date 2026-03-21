@@ -1,0 +1,29 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "packing-list",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "/Users/chris/packing-list", "run", "dev", "--", "--port", "5173"],
+      "port": 5173
+    },
+    {
+      "name": "kids-wishlist",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "/Users/chris/kids-wishlist/wishlist-app", "run", "dev", "--", "--port", "5175"],
+      "port": 5175
+    },
+    {
+      "name": "chore-app",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "/Users/chris/chore-list", "run", "dev", "--", "--port", "5174"],
+      "port": 5174
+    },
+    {
+      "name": "march-madness",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "/Users/chris/kids-wishlist/backend", "start"],
+      "port": 3001
+    }
+  ]
+}
