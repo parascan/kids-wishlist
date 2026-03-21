@@ -25,7 +25,6 @@ export default function AddItemModal({ kidColor, initialValues, onSave, onClose 
   const uploadRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    nameRef.current?.focus();
     document.body.style.overflow = 'hidden';
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
