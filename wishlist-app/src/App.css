@@ -510,7 +510,7 @@
 
 .photo-upload {
   width: 100%;
-  aspect-ratio: 4 / 3;
+  min-height: 180px;
   border: 2px dashed #cbd5e1;
   border-radius: 0.75rem;
   background: #f8fafc;
