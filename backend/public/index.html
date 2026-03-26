@@ -150,6 +150,7 @@
   <h1>📊 Sports Odds Finder</h1>
   <span><span class="status-dot" id="status-dot"></span> <span id="status-text">Loading...</span></span>
   <button class="btn" id="refresh-btn" onclick="refresh()">Refresh</button>
+  <button class="btn" id="hide-live-btn" onclick="toggleHideLive()" style="background:#2d3748">Hide Live</button>
   <div class="sport-tabs" id="sport-tabs">
     <button class="sport-tab active" onclick="setSport('all',this)">All</button>
     <button class="sport-tab" onclick="setSport('NBA',this)">NBA</button>
@@ -217,6 +218,14 @@ let discrepancies = [];
 let valueBets = [];  // auto-detected value bets
 let bets = [];       // placed bets
 let currentSport = 'all';
+let hideLive = false;
+function toggleHideLive() {
+  hideLive = !hideLive;
+  const btn = document.getElementById('hide-live-btn');
+  btn.textContent = hideLive ? 'Show Live' : 'Hide Live';
+  btn.style.background = hideLive ? '#c53030' : '#2d3748';
+  renderGames();
+}
 let currentTab = 'games';
 
 // Pending modal state
@@ -478,7 +487,8 @@ function renderValuePanel() {
 function render() {
   renderValuePanel();
   const container = document.getElementById('games');
-  const filtered = (currentSport === 'all' ? games : games.filter(g => g.sport === currentSport));
+  let filtered = (currentSport === 'all' ? games : games.filter(g => g.sport === currentSport));
+  if (hideLive) filtered = filtered.filter(g => g.status !== 'STATUS_IN_PROGRESS');
 
   if (!filtered.length) {
     container.innerHTML = '<div class="empty-state"><h3>No games found — click Refresh</h3></div>';
