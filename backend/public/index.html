@@ -238,6 +238,10 @@ function fmtOdds(n) {
   if (n == null) return '<span class="no-odds">—</span>';
   return n > 0 ? `+${n}` : `${n}`;
 }
+function fmtPct(p) {
+  if (p == null) return '<span class="no-odds">—</span>';
+  return `${(p * 100).toFixed(1)}%`;
+}
 function fmtMoney(n) {
   return (n >= 0 ? '+' : '') + '$' + Math.abs(n).toFixed(2);
 }
@@ -379,21 +383,22 @@ function renderOddsTable(game, oddsLookup, rhLookup) {
 
     const cells = allBooks.map((b, bi) => {
       const p = probs[bi];
-      const american = fmtAmerican(p);
-      // Edge tag on best book cell
       const isBest = bestBet && bestBet.best_book === b;
       const edgeTag = isBest ? ` <span class="edge-tag">+${(bestBet.edge*100).toFixed(1)}%</span>` : '';
-      return `<td class="${colors[bi]}">${fmtOdds(american)}${edgeTag}</td>`;
+      return `<td class="${colors[bi]}">${fmtPct(p)}${edgeTag}</td>`;
     }).join('');
 
-    const consCell = consOdds != null
-      ? `<td class="consensus-col">${fmtOdds(consOdds)}</td>`
+    const consCell = cons != null
+      ? `<td class="consensus-col">${fmtPct(cons)}</td>`
       : `<td class="no-odds">—</td>`;
 
+    const rhProb = rhOdds != null
+      ? (rhOdds > 0 ? 100/(rhOdds+100) : Math.abs(rhOdds)/(Math.abs(rhOdds)+100))
+      : null;
     const gameKey = apiGid ?? espnGid;
     const rhCell = rhOdds != null
       ? `<td class="rh-cell rh-col">
-           ${fmtOdds(rhOdds)}
+           ${fmtPct(rhProb)}
            ${delta !== null ? `<span class="edge-tag" style="${delta >= 0.01 ? 'color:#68d391' : delta < -0.01 ? 'color:#fc8181' : ''}">${delta >= 0 ? '+' : ''}${(delta*100).toFixed(1)}%</span>` : ''}
            <button class="rh-clear-btn" onclick="clearRh(${rhId})">×</button>
          </td>`
