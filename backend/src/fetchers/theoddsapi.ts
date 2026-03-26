@@ -5,10 +5,13 @@ const BASE = 'https://api.the-odds-api.com/v4';
 
 const SPORTS: { key: string; apiKey: string }[] = [
   { key: 'NBA',   apiKey: 'basketball_nba' },
+  { key: 'WNBA',  apiKey: 'basketball_wnba' },
   { key: 'MLB',   apiKey: 'baseball_mlb' },
   { key: 'NHL',   apiKey: 'icehockey_nhl' },
   { key: 'NCAAB', apiKey: 'basketball_ncaab' },
+  { key: 'NCAAW', apiKey: 'basketball_ncaaw' },
   { key: 'NCAAF', apiKey: 'americanfootball_ncaaf' },
+  { key: 'NCAAB_Baseball', apiKey: 'baseball_ncaa' },
 ];
 
 // Books to pull — ordered by sharpness
