@@ -1,9 +1,15 @@
 import axios from 'axios';
-import { americanToImplied } from '../math/index.js';
-import { removeVig } from '../math/index.js';
+import { americanToImplied, removeVig } from '../math/index.js';
 
 const BASE = 'https://api.the-odds-api.com/v4';
-const SPORT = 'basketball_ncaab';
+
+const SPORTS: { key: string; apiKey: string }[] = [
+  { key: 'NBA',   apiKey: 'basketball_nba' },
+  { key: 'MLB',   apiKey: 'baseball_mlb' },
+  { key: 'NHL',   apiKey: 'icehockey_nhl' },
+  { key: 'NCAAB', apiKey: 'basketball_ncaab' },
+  { key: 'NCAAF', apiKey: 'americanfootball_ncaaf' },
+];
 
 // Books to pull — ordered by sharpness
 const BOOKMAKERS = ['draftkings', 'fanduel', 'betmgm', 'caesars', 'pointsbet', 'williamhill_us', 'bovada'];
@@ -13,19 +19,20 @@ export interface OddsApiOdds {
   home_team: string;
   away_team: string;
   game_time: string;
+  sport: string;
   bet_type: 'moneyline' | 'spread' | 'totals';
   outcome: string;
   implied_prob: number;
   line_value?: number;
-  source: string; // e.g. 'draftkings', 'fanduel'
+  source: string;
 }
 
-export async function fetchTheOddsApi(apiKey: string): Promise<OddsApiOdds[]> {
+async function fetchSport(apiSportKey: string, sportKey: string, authKey: string): Promise<OddsApiOdds[]> {
   const results: OddsApiOdds[] = [];
   try {
-    const response = await axios.get(`${BASE}/sports/${SPORT}/odds`, {
+    const response = await axios.get(`${BASE}/sports/${apiSportKey}/odds`, {
       params: {
-        apiKey,
+        apiKey: authKey,
         regions: 'us',
         markets: 'h2h,spreads,totals',
         oddsFormat: 'american',
@@ -46,43 +53,55 @@ export async function fetchTheOddsApi(apiKey: string): Promise<OddsApiOdds[]> {
         for (const market of (bookmaker.markets ?? [])) {
           if (market.key === 'h2h') {
             const outcomes: any[] = market.outcomes ?? [];
-            const homeOutcome = outcomes.find((o: any) => o.name === homeTeam);
-            const awayOutcome = outcomes.find((o: any) => o.name === awayTeam);
-            if (!homeOutcome || !awayOutcome) continue;
-            const rawHome = americanToImplied(homeOutcome.price);
-            const rawAway = americanToImplied(awayOutcome.price);
-            const { fairA: fairAway, fairB: fairHome } = removeVig({ impliedA: rawAway, impliedB: rawHome });
-            results.push({ game_id: gameId, home_team: homeTeam, away_team: awayTeam, game_time: gameTime, bet_type: 'moneyline', outcome: 'away', implied_prob: fairAway, source });
-            results.push({ game_id: gameId, home_team: homeTeam, away_team: awayTeam, game_time: gameTime, bet_type: 'moneyline', outcome: 'home', implied_prob: fairHome, source });
+            const homeO = outcomes.find((o: any) => o.name === homeTeam);
+            const awayO = outcomes.find((o: any) => o.name === awayTeam);
+            if (!homeO || !awayO) continue;
+            const { fairA: fairAway, fairB: fairHome } = removeVig({
+              impliedA: americanToImplied(awayO.price),
+              impliedB: americanToImplied(homeO.price),
+            });
+            results.push({ game_id: gameId, home_team: homeTeam, away_team: awayTeam, game_time: gameTime, sport: sportKey, bet_type: 'moneyline', outcome: 'away', implied_prob: fairAway, source });
+            results.push({ game_id: gameId, home_team: homeTeam, away_team: awayTeam, game_time: gameTime, sport: sportKey, bet_type: 'moneyline', outcome: 'home', implied_prob: fairHome, source });
           } else if (market.key === 'spreads') {
             const outcomes: any[] = market.outcomes ?? [];
-            const homeOutcome = outcomes.find((o: any) => o.name === homeTeam);
-            const awayOutcome = outcomes.find((o: any) => o.name === awayTeam);
-            if (!homeOutcome || !awayOutcome) continue;
-            const rawHome = americanToImplied(homeOutcome.price);
-            const rawAway = americanToImplied(awayOutcome.price);
-            const { fairA: fairAway, fairB: fairHome } = removeVig({ impliedA: rawAway, impliedB: rawHome });
-            results.push({ game_id: gameId, home_team: homeTeam, away_team: awayTeam, game_time: gameTime, bet_type: 'spread', outcome: 'away', implied_prob: fairAway, line_value: awayOutcome.point, source });
-            results.push({ game_id: gameId, home_team: homeTeam, away_team: awayTeam, game_time: gameTime, bet_type: 'spread', outcome: 'home', implied_prob: fairHome, line_value: homeOutcome.point, source });
+            const homeO = outcomes.find((o: any) => o.name === homeTeam);
+            const awayO = outcomes.find((o: any) => o.name === awayTeam);
+            if (!homeO || !awayO) continue;
+            const { fairA: fairAway, fairB: fairHome } = removeVig({
+              impliedA: americanToImplied(awayO.price),
+              impliedB: americanToImplied(homeO.price),
+            });
+            results.push({ game_id: gameId, home_team: homeTeam, away_team: awayTeam, game_time: gameTime, sport: sportKey, bet_type: 'spread', outcome: 'away', implied_prob: fairAway, line_value: awayO.point, source });
+            results.push({ game_id: gameId, home_team: homeTeam, away_team: awayTeam, game_time: gameTime, sport: sportKey, bet_type: 'spread', outcome: 'home', implied_prob: fairHome, line_value: homeO.point, source });
           } else if (market.key === 'totals') {
             const outcomes: any[] = market.outcomes ?? [];
-            const overOutcome = outcomes.find((o: any) => o.name === 'Over');
-            const underOutcome = outcomes.find((o: any) => o.name === 'Under');
-            if (!overOutcome || !underOutcome) continue;
-            const rawOver = americanToImplied(overOutcome.price);
-            const rawUnder = americanToImplied(underOutcome.price);
-            const { fairA: fairOver, fairB: fairUnder } = removeVig({ impliedA: rawOver, impliedB: rawUnder });
-            results.push({ game_id: gameId, home_team: homeTeam, away_team: awayTeam, game_time: gameTime, bet_type: 'totals', outcome: 'over', implied_prob: fairOver, line_value: overOutcome.point, source });
-            results.push({ game_id: gameId, home_team: homeTeam, away_team: awayTeam, game_time: gameTime, bet_type: 'totals', outcome: 'under', implied_prob: fairUnder, line_value: underOutcome.point, source });
+            const overO = outcomes.find((o: any) => o.name === 'Over');
+            const underO = outcomes.find((o: any) => o.name === 'Under');
+            if (!overO || !underO) continue;
+            const { fairA: fairOver, fairB: fairUnder } = removeVig({
+              impliedA: americanToImplied(overO.price),
+              impliedB: americanToImplied(underO.price),
+            });
+            results.push({ game_id: gameId, home_team: homeTeam, away_team: awayTeam, game_time: gameTime, sport: sportKey, bet_type: 'totals', outcome: 'over', implied_prob: fairOver, line_value: overO.point, source });
+            results.push({ game_id: gameId, home_team: homeTeam, away_team: awayTeam, game_time: gameTime, sport: sportKey, bet_type: 'totals', outcome: 'under', implied_prob: fairUnder, line_value: underO.point, source });
           }
         }
       }
     }
 
     const remaining = response.headers['x-requests-remaining'];
-    if (remaining) console.log(`[theoddsapi] requests remaining: ${remaining}`);
+    if (remaining) console.log(`[theoddsapi:${sportKey}] requests remaining: ${remaining}`);
   } catch (err: any) {
-    console.error('[theoddsapi] fetch failed:', err.response?.data ?? err.message);
+    if (err.response?.status !== 422) {
+      console.warn(`[theoddsapi:${sportKey}] fetch failed:`, err.response?.data ?? err.message);
+    }
   }
   return results;
+}
+
+export async function fetchTheOddsApi(authKey: string): Promise<OddsApiOdds[]> {
+  const results = await Promise.all(
+    SPORTS.map(s => fetchSport(s.apiKey, s.key, authKey))
+  );
+  return results.flat();
 }
