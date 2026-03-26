@@ -1,9 +1,12 @@
 import Database from 'better-sqlite3';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DB_PATH = path.join(__dirname, '../../data/march-madness.db');
+// Local: backend/data/  Railway: /app/data/
+const DB_PATH = process.env.DB_PATH ?? path.join(__dirname, '../data/march-madness.db');
+fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
 
 const db = new Database(DB_PATH);
 db.pragma('journal_mode = WAL');
